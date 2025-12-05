@@ -1,3 +1,4 @@
+import React from "react";
 import { NextResponse } from "next/server";
 import sharp from "sharp";
 import satori from "satori";
@@ -71,12 +72,11 @@ export async function POST(req: Request) {
     // 1080x1080 base
     const base = sharp(bgBuf).resize(1080, 1080, { fit: "cover" });
 
-    // Text overlay -> SVG via satori
+    // Text overlay -> SVG via satori (nu met JSX)
     const svg = await satori(
-      {
-        type: "div",
-        props: {
-          style: {
+      (
+        <div
+          style={{
             width: "1080px",
             height: "1080px",
             display: "flex",
@@ -85,53 +85,44 @@ export async function POST(req: Request) {
             padding: "90px",
             color: "white",
             background: "rgba(0,0,0,0)"
-          },
-          children: [
-            {
-              type: "div",
-              props: {
-                style: {
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "18px",
-                  padding: "40px 44px",
-                  borderRadius: "34px",
-                  backgroundColor: "rgba(0,0,0,0.42)",
-                  border: "1px solid rgba(255,255,255,0.18)"
-                },
-                children: [
-                  {
-                    type: "div",
-                    props: {
-                      style: {
-                        fontFamily: "Inter",
-                        fontWeight: 700,
-                        fontSize: `${titleSize}px`,
-                        lineHeight: 1.05,
-                        letterSpacing: "-0.02em"
-                      },
-                      children: title
-                    }
-                  },
-                  {
-                    type: "div",
-                    props: {
-                      style: {
-                        fontFamily: "Inter",
-                        fontWeight: 400,
-                        fontSize: `${bodySize}px`,
-                        lineHeight: 1.15,
-                        opacity: 0.96
-                      },
-                      children: message
-                    }
-                  }
-                ]
-              }
-            }
-          ]
-        }
-      },
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "18px",
+              padding: "40px 44px",
+              borderRadius: "34px",
+              backgroundColor: "rgba(0,0,0,0.42)",
+              border: "1px solid rgba(255,255,255,0.18)"
+            }}
+          >
+            <div
+              style={{
+                fontFamily: "Inter",
+                fontWeight: 700,
+                fontSize: `${titleSize}px`,
+                lineHeight: 1.05,
+                letterSpacing: "-0.02em"
+              }}
+            >
+              {title}
+            </div>
+            <div
+              style={{
+                fontFamily: "Inter",
+                fontWeight: 400,
+                fontSize: `${bodySize}px`,
+                lineHeight: 1.15,
+                opacity: 0.96
+              }}
+            >
+              {message}
+            </div>
+          </div>
+        </div>
+      ),
       {
         width: 1080,
         height: 1080,
