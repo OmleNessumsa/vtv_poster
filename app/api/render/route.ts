@@ -84,4 +84,91 @@ export async function POST(req: Request) {
             justifyContent: "flex-end",
             padding: "90px",
             color: "white",
-            ba
+            background: "rgba(0,0,0,0)"
+          },
+          children: [
+            {
+              type: "div",
+              props: {
+                style: {
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "18px",
+                  padding: "40px 44px",
+                  borderRadius: "34px",
+                  backgroundColor: "rgba(0,0,0,0.42)",
+                  border: "1px solid rgba(255,255,255,0.18)"
+                },
+                children: [
+                  {
+                    type: "div",
+                    props: {
+                      style: {
+                        fontFamily: "Inter",
+                        fontWeight: 700,
+                        fontSize: `${titleSize}px`,
+                        lineHeight: 1.05,
+                        letterSpacing: "-0.02em"
+                      },
+                      children: title
+                    }
+                  },
+                  {
+                    type: "div",
+                    props: {
+                      style: {
+                        fontFamily: "Inter",
+                        fontWeight: 400,
+                        fontSize: `${bodySize}px`,
+                        lineHeight: 1.15,
+                        opacity: 0.96
+                      },
+                      children: message
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        width: 1080,
+        height: 1080,
+        fonts: [
+          { name: "Inter", data: fontRegular, weight: 400, style: "normal" },
+          { name: "Inter", data: fontSemibold, weight: 700, style: "normal" }
+        ]
+      }
+    );
+
+    const overlayPng = await sharp(Buffer.from(svg)).png().toBuffer();
+
+    const outPng = await base
+      .composite([{ input: overlayPng, top: 0, left: 0 }])
+      .png()
+      .toBuffer();
+
+    if (mode === "url") {
+      const fileName = `social/${Date.now()}-${Math.random().toString(16).slice(2)}.png`;
+      const blob = await put(fileName, outPng, {
+        access: "public",
+        contentType: "image/png"
+      });
+      return NextResponse.json({ url: blob.url }, { status: 200 });
+    }
+
+    return new NextResponse(outPng, {
+      status: 200,
+      headers: {
+        "Content-Type": "image/png",
+        "Cache-Control": "no-store"
+      }
+    });
+  } catch (err: any) {
+    return NextResponse.json(
+      { error: err?.message ?? "Unknown error" },
+      { status: 500 }
+    );
+  }
+}
