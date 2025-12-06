@@ -104,7 +104,7 @@ export async function POST(req: Request) {
                 style: {
                   fontFamily: "Inter",
                   fontWeight: 700,
-                  fontSize: `${Math.round(titleSize * 1.35)}px`,   // TITEL VEEL GROTER
+                  fontSize: `${Math.round(titleSize * 2)}px`,   // TITEL VEEL GROTER
                   lineHeight: 1.1,
                 },
                 children: title
@@ -116,7 +116,7 @@ export async function POST(req: Request) {
                 style: {
                   fontFamily: "Inter",
                   fontWeight: 400,
-                  fontSize: `${Math.round(bodySize * 1.25)}px`,    // BODY OOK GROTER
+                  fontSize: `${Math.round(bodySize * 1.35)}px`,    // BODY OOK GROTER
                   lineHeight: 1.3,
                   opacity: 0.9
                 },
