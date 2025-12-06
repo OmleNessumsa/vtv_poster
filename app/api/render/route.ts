@@ -74,64 +74,62 @@ export async function POST(req: Request) {
     // Text overlay -> SVG via satori (pure JS object, geen JSX)
     const svg = await (satori as any)(
       {
+  type: "div",
+  props: {
+    style: {
+      width: "1080px",
+      height: "1080px",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      alignItems: "center",
+      padding: "80px",
+      color: "#1e0033",
+      textAlign: "center"
+    },
+    children: [
+      {
         type: "div",
         props: {
           style: {
-            width: "1080px",
-            height: "1080px",
             display: "flex",
             flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",       // ⬅ midden op X
-            padding: "80px",
-            color: "white",
-            background: "rgba(0,0,0,0)",
-            textAlign: "center"
+            gap: "32px",           // meer ruimte tussen title & message
+            maxWidth: "900px",     // zorgt voor wrap
           },
           children: [
             {
               type: "div",
               props: {
                 style: {
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "18px",
-                  maxWidth: "880px",    // ⬅ zodat tekst niet tot de rand loopt
-                  // geen achtergrond, geen border, geen card
+                  fontFamily: "Inter",
+                  fontWeight: 700,
+                  fontSize: `${Math.round(titleSize * 1.35)}px`,   // TITEL VEEL GROTER
+                  lineHeight: 1.1,
                 },
-                children: [
-                  {
-                    type: "div",
-                    props: {
-                      style: {
-                        fontFamily: "Inter",
-                        fontWeight: 700,
-                        fontSize: `${titleSize}px`,
-                        lineHeight: 1.05,
-                        letterSpacing: "-0.02em",
-                      },
-                      children: title,
-                    },
-                  },
-                  {
-                    type: "div",
-                    props: {
-                      style: {
-                        fontFamily: "Inter",
-                        fontWeight: 400,
-                        fontSize: `${bodySize}px`,
-                        lineHeight: 1.15,
-                        opacity: 0.96,
-                      },
-                      children: message,
-                    },
-                  },
-                ],
+                children: title
+              }
+            },
+            {
+              type: "div",
+              props: {
+                style: {
+                  fontFamily: "Inter",
+                  fontWeight: 400,
+                  fontSize: `${Math.round(bodySize * 1.25)}px`,    // BODY OOK GROTER
+                  lineHeight: 1.3,
+                  opacity: 0.9
+                },
+                children: message
               },
             },
           ],
         },
       },
+    ],
+  },
+}
+
       {
         width: 1080,
         height: 1080,
