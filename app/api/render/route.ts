@@ -158,13 +158,20 @@ export async function POST(req: Request) {
       return NextResponse.json({ url: blob.url }, { status: 200 });
     }
 
-    return new NextResponse(outPng, {
-      status: 200,
-      headers: {
-        "Content-Type": "image/png",
-        "Cache-Control": "no-store"
-      }
-    });
+// Buffer -> ArrayBuffer
+const outArrayBuffer = outPng.buffer.slice(
+  outPng.byteOffset,
+  outPng.byteOffset + outPng.byteLength
+);
+
+return new NextResponse(outArrayBuffer, {
+  status: 200,
+  headers: {
+    "Content-Type": "image/png",
+    "Cache-Control": "no-store"
+  }
+});
+
   } catch (err: any) {
     return NextResponse.json(
       { error: err?.message ?? "Unknown error" },
