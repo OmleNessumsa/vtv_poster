@@ -71,7 +71,7 @@ export async function POST(req: Request) {
     // 1080x1080 base
     const base = sharp(bgBuf).resize(1080, 1080, { fit: "cover" });
 
-    // Text overlay -> SVG via satori (object i.p.v. JSX)
+    // Text overlay -> SVG via satori (pure JS object, geen JSX)
     const svg = await (satori as any)(
       {
         type: "div",
