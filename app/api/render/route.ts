@@ -64,7 +64,7 @@ export async function POST(req: Request) {
       )
     ]);
 
-    const scale = computeFontScale(title, message);
+        const scale = computeFontScale(title, message);
     const titleSize = Math.round(64 * scale);
     const bodySize = Math.round(46 * scale);
 
@@ -84,7 +84,7 @@ export async function POST(req: Request) {
             justifyContent: "flex-end",
             padding: "90px",
             color: "white",
-            background: "rgba(0,0,0,0)"
+            background: "rgba(0,0,0,0)",
           },
           children: [
             {
@@ -97,7 +97,7 @@ export async function POST(req: Request) {
                   padding: "40px 44px",
                   borderRadius: "34px",
                   backgroundColor: "rgba(0,0,0,0.42)",
-                  border: "1px solid rgba(255,255,255,0.18)"
+                  border: "1px solid rgba(255,255,255,0.18)",
                 },
                 children: [
                   {
@@ -108,10 +108,10 @@ export async function POST(req: Request) {
                         fontWeight: 700,
                         fontSize: `${titleSize}px`,
                         lineHeight: 1.05,
-                        letterSpacing: "-0.02em"
+                        letterSpacing: "-0.02em",
                       },
-                      children: title
-                    }
+                      children: title,
+                    },
                   },
                   {
                     type: "div",
@@ -121,24 +121,24 @@ export async function POST(req: Request) {
                         fontWeight: 400,
                         fontSize: `${bodySize}px`,
                         lineHeight: 1.15,
-                        opacity: 0.96
+                        opacity: 0.96,
                       },
-                      children: message
-                    }
-                  }
-                ]
-              }
-            }
-          ]
-        }
+                      children: message,
+                    },
+                  },
+                ],
+              },
+            },
+          ],
+        },
       },
       {
         width: 1080,
         height: 1080,
         fonts: [
           { name: "Inter", data: fontRegular, weight: 400, style: "normal" },
-          { name: "Inter", data: fontSemibold, weight: 700, style: "normal" }
-        ]
+          { name: "Inter", data: fontSemibold, weight: 700, style: "normal" },
+        ],
       }
     );
 
@@ -150,27 +150,26 @@ export async function POST(req: Request) {
       .toBuffer();
 
     if (mode === "url") {
-      const fileName = `social/${Date.now()}-${Math.random().toString(16).slice(2)}.png`;
+      const fileName = `social/${Date.now()}-${Math.random()
+        .toString(16)
+        .slice(2)}.png`;
+
       const blob = await put(fileName, outPng, {
         access: "public",
-        contentType: "image/png"
+        contentType: "image/png",
       });
+
       return NextResponse.json({ url: blob.url }, { status: 200 });
     }
 
-// Buffer -> ArrayBuffer
-const outArrayBuffer = outPng.buffer.slice(
-  outPng.byteOffset,
-  outPng.byteOffset + outPng.byteLength
-);
+    return new NextResponse(outPng as any, {
+      status: 200,
+      headers: {
+        "Content-Type": "image/png",
+        "Cache-Control": "no-store",
+      },
+    });
 
-return new NextResponse(outArrayBuffer, {
-  status: 200,
-  headers: {
-    "Content-Type": "image/png",
-    "Cache-Control": "no-store"
-  }
-});
 
   } catch (err: any) {
     return NextResponse.json(
