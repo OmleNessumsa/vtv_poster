@@ -128,7 +128,7 @@ export async function POST(req: Request) {
       },
     ],
   },
-}
+},
 
       {
         width: 1080,
