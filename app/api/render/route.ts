@@ -81,10 +81,12 @@ export async function POST(req: Request) {
             height: "1080px",
             display: "flex",
             flexDirection: "column",
-            justifyContent: "flex-end",
-            padding: "90px",
+            justifyContent: "center",
+            alignItems: "center",       // ⬅ midden op X
+            padding: "80px",
             color: "white",
             background: "rgba(0,0,0,0)",
+            textAlign: "center"
           },
           children: [
             {
@@ -94,10 +96,8 @@ export async function POST(req: Request) {
                   display: "flex",
                   flexDirection: "column",
                   gap: "18px",
-                  padding: "40px 44px",
-                  borderRadius: "34px",
-                  backgroundColor: "rgba(0,0,0,0.42)",
-                  border: "1px solid rgba(255,255,255,0.18)",
+                  maxWidth: "880px",    // ⬅ zodat tekst niet tot de rand loopt
+                  // geen achtergrond, geen border, geen card
                 },
                 children: [
                   {
